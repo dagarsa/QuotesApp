@@ -7,51 +7,51 @@
     tools:context=".DashboardActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/bGet"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="GET QUOTATIONS"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        android:text="@string/get"
+        app:layout_constraintBottom_toTopOf="@+id/bFavourite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/bFavourite"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="FAVOURITE QUOTATIONS"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        android:text="@string/favourite"
+        app:layout_constraintBottom_toTopOf="@+id/bSettings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/bGet" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/bSettings"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="SETTINGS"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        android:text="@string/settings"
+        app:layout_constraintBottom_toTopOf="@+id/bAbout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/bFavourite" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/bAbout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="ABOUT"
+        android:text="@string/about"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/bSettings" />
 </androidx.constraintlayout.widget.ConstraintLayout>

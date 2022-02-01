@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">QuotesApp</string>
+    <string name="get">GET QUOTATIONS</string>
+    <string name="favourite">FAVOURITE QUOTATIONS</string>
+    <string name="settings">SETTINGS</string>
+    <string name="about">ABOUT</string>
 </resources>
