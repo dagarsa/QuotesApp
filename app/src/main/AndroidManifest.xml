@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuotesApp">
         <activity
+            android:name=".AboutActivity"
+            android:label="@string/about"
+            android:exported="false" />
+        <activity
             android:name=".DashboardActivity"
             android:exported="true">
             <intent-filter>

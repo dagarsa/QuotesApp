@@ -4,4 +4,5 @@
     <string name="favourite">FAVOURITE QUOTATIONS</string>
     <string name="settings">SETTINGS</string>
     <string name="about">ABOUT</string>
+    <string name="aboutInfo">Quotation Shake by \n\n Daniel García Santes \n\n dagarsa7@upv.edu.es \n\n Developed for DADM 2022</string>
 </resources>

@@ -2,6 +2,7 @@ package upv.dadm.quotesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,7 +36,9 @@ public class DashboardActivity extends AppCompatActivity {
                     Toast.makeText(DashboardActivity.this, "Has pulsado " + bSettings.getText(), Toast.LENGTH_LONG).show();
                 }
                 if (bAbout.isPressed()){
-                    Toast.makeText(DashboardActivity.this, "Has pulsado " + bAbout.getText(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(DashboardActivity.this, "Has pulsado " + bAbout.getText(), Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(DashboardActivity.this, AboutActivity.class);
+                    startActivity(intent);
                 }
 
             }
