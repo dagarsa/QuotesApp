@@ -4,5 +4,11 @@
     <string name="favourite">FAVOURITE QUOTATIONS</string>
     <string name="settings">SETTINGS</string>
     <string name="about">ABOUT</string>
+    <string name="tvName">Name that identifies the user</string>
+    <string name="insertName">Insert your name</string>
+    <string name="tvGetQuotations">Get quotations in the selected language</string>
+    <string name="tvMethod">Request quotations using the selected HTTP method</string>
+    <string name="tvGet">GET</string>
+    <string name="tvPost">POST</string>
     <string name="aboutInfo">Quotation Shake by \n\n Daniel García Santes \n\n dagarsa7@upv.edu.es \n\n Developed for DADM 2022</string>
 </resources>

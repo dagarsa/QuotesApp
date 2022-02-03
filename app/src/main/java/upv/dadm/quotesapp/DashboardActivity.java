@@ -26,6 +26,7 @@ public class DashboardActivity extends AppCompatActivity {
         View.OnClickListener onClickMethod = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent;
                 if (bGet.isPressed()){
                     Toast.makeText(DashboardActivity.this, "Has pulsado " + bGet.getText(), Toast.LENGTH_LONG).show();
                 }
@@ -33,11 +34,13 @@ public class DashboardActivity extends AppCompatActivity {
                     Toast.makeText(DashboardActivity.this, "Has pulsado " + bFavourite.getText(), Toast.LENGTH_LONG).show();
                 }
                 if (bSettings.isPressed()){
-                    Toast.makeText(DashboardActivity.this, "Has pulsado " + bSettings.getText(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(DashboardActivity.this, "Has pulsado " + bSettings.getText(), Toast.LENGTH_LONG).show();
+                    intent = new Intent(DashboardActivity.this, SettingsActivity.class);
+                    startActivity(intent);
                 }
                 if (bAbout.isPressed()){
                     //Toast.makeText(DashboardActivity.this, "Has pulsado " + bAbout.getText(), Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(DashboardActivity.this, AboutActivity.class);
+                    intent = new Intent(DashboardActivity.this, AboutActivity.class);
                     startActivity(intent);
                 }
 
