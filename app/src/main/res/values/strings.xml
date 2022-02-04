@@ -11,5 +11,8 @@
     <string name="tvGet">GET</string>
     <string name="tvPost">POST</string>
     <string name="bAuthor">Author info</string>
+    <string name="tvGetHello">Hello%1s!\nPress Refresh to get a new quotation</string>
+    <string name="tvSample">This is a sample quotation</string>
+    <string name="tvSampleAuthor">Sample Author</string>
     <string name="aboutInfo">Quotation Shake by \n\n Daniel García Santes \n\n dagarsa7@upv.edu.es \n\n Developed for DADM 2022</string>
 </resources>

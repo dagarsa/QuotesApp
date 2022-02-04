@@ -28,7 +28,9 @@ public class DashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent;
                 if (bGet.isPressed()){
-                    Toast.makeText(DashboardActivity.this, "Has pulsado " + bGet.getText(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(DashboardActivity.this, "Has pulsado " + bGet.getText(), Toast.LENGTH_LONG).show();
+                    intent = new Intent(DashboardActivity.this, QuotationActivity.class);
+                    startActivity(intent);
                 }
                 if (bFavourite.isPressed()){
                     //Toast.makeText(DashboardActivity.this, "Has pulsado " + bFavourite.getText(), Toast.LENGTH_LONG).show();
