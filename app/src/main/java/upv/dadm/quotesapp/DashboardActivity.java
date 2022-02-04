@@ -31,7 +31,9 @@ public class DashboardActivity extends AppCompatActivity {
                     Toast.makeText(DashboardActivity.this, "Has pulsado " + bGet.getText(), Toast.LENGTH_LONG).show();
                 }
                 if (bFavourite.isPressed()){
-                    Toast.makeText(DashboardActivity.this, "Has pulsado " + bFavourite.getText(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(DashboardActivity.this, "Has pulsado " + bFavourite.getText(), Toast.LENGTH_LONG).show();
+                    intent = new Intent(DashboardActivity.this, FavouriteActivity.class);
+                    startActivity(intent);
                 }
                 if (bSettings.isPressed()){
                     //Toast.makeText(DashboardActivity.this, "Has pulsado " + bSettings.getText(), Toast.LENGTH_LONG).show();
@@ -51,8 +53,5 @@ public class DashboardActivity extends AppCompatActivity {
         bFavourite.setOnClickListener(onClickMethod);
         bSettings.setOnClickListener(onClickMethod);
         bAbout.setOnClickListener(onClickMethod);
-
-
-
     }
 }

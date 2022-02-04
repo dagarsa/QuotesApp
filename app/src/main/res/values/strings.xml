@@ -10,5 +10,6 @@
     <string name="tvMethod">Request quotations using the selected HTTP method</string>
     <string name="tvGet">GET</string>
     <string name="tvPost">POST</string>
+    <string name="bAuthor">Author info</string>
     <string name="aboutInfo">Quotation Shake by \n\n Daniel García Santes \n\n dagarsa7@upv.edu.es \n\n Developed for DADM 2022</string>
 </resources>
