@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuotesApp</string>
+    <string name="app_name" translatable="false">QuotesApp</string>
     <string name="get">GET QUOTATIONS</string>
     <string name="favourite">FAVOURITE QUOTATIONS</string>
     <string name="settings">SETTINGS</string>
@@ -8,11 +8,11 @@
     <string name="insertName">Insert your name</string>
     <string name="tvGetQuotations">Get quotations in the selected language</string>
     <string name="tvMethod">Request quotations using the selected HTTP method</string>
-    <string name="tvGet">GET</string>
-    <string name="tvPost">POST</string>
+    <string name="tvGet" translatable="false">GET</string>
+    <string name="tvPost" translatable="false">POST</string>
     <string name="bAuthor">Author info</string>
     <string name="tvGetHello">Hello%1s!\nPress Refresh to get a new quotation</string>
     <string name="tvSample">This is a sample quotation</string>
     <string name="tvSampleAuthor">Sample Author</string>
-    <string name="aboutInfo">Quotation Shake by \n\n Daniel García Santes \n\n dagarsa7@upv.edu.es \n\n Developed for DADM 2022</string>
+    <string name="aboutInfo">Quotation Shake by\n\nDaniel García Santes\n\ndagarsa7@upv.edu.es\n\nDeveloped for DADM 2022</string>
 </resources>

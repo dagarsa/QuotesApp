@@ -3,6 +3,7 @@ package upv.dadm.quotesapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.ExtractedText;
 import android.widget.ImageButton;
@@ -16,7 +17,10 @@ public class QuotationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quotation);
 
         TextView tvName = findViewById(R.id.tvHello);
-        tvName.setText("Hello Nameless One\nPress Refresh to get a new quotation");
+        String tvGetHello = getString(R.string.tvGetHello);
+        tvGetHello = tvGetHello.replaceAll("%1s", " Nameless One");
+        tvName.setText(tvGetHello);
+
         ImageButton iButton = findViewById(R.id.iButton);
 
         iButton.setOnClickListener(new View.OnClickListener() {
