@@ -17,8 +17,8 @@ public class QuotationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quotation);
 
         TextView tvName = findViewById(R.id.tvHello);
-        String tvGetHello = getString(R.string.tvGetHello);
-        tvGetHello = tvGetHello.replaceAll("%1s", " Nameless One");
+        String name = " Nameless One";
+        String tvGetHello = getString(R.string.tvGetHello, name);
         tvName.setText(tvGetHello);
 
         ImageButton iButton = findViewById(R.id.iButton);
