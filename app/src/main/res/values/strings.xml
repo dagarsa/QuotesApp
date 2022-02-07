@@ -15,4 +15,6 @@
     <string name="tvSample">This is a sample quotation</string>
     <string name="tvSampleAuthor">Sample Author</string>
     <string name="aboutInfo">Quotation Shake by\n\nDaniel García Santes\n\ndagarsa7@upv.edu.es\n\nDeveloped for DADM 2022</string>
+    <string name="idiomaIngles">English</string>
+    <string name="idiomaRuso">Russian</string>
 </resources>

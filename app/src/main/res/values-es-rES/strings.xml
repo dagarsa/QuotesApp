@@ -13,4 +13,6 @@
     <string name="tvSample">Esto es un ejemplo de una cita</string>
     <string name="tvSampleAuthor">Ejemplo de autor</string>
     <string name="aboutInfo">Quotation Shake de\n\nDaniel García Santes\n\ndagarsa7@upv.edu.es\n\nDesarrollado para DADM 2022</string>
+    <string name="idiomaIngles">Inglés</string>
+    <string name="idiomaRuso">Ruso</string>
 </resources>
