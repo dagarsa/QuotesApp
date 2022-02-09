@@ -17,8 +17,11 @@ public class IntermediarioVistaDatos extends RecyclerView.Adapter<IntermediarioV
 
     private List<Quotation> listaQuotes;
 
-    public IntermediarioVistaDatos(List<Quotation> theListaQuotes){
+    private OnItemClickListener interOnItemClickListener;
+
+    public IntermediarioVistaDatos(List<Quotation> theListaQuotes, OnItemClickListener theInterOnItemClickListener){
         listaQuotes = theListaQuotes;
+        interOnItemClickListener = theInterOnItemClickListener;
     }
 
     @NonNull
@@ -42,7 +45,7 @@ public class IntermediarioVistaDatos extends RecyclerView.Adapter<IntermediarioV
         return listaQuotes.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvQuotes;
         public TextView tvAuthor;
 
@@ -50,6 +53,16 @@ public class IntermediarioVistaDatos extends RecyclerView.Adapter<IntermediarioV
             super(itemView);
             tvAuthor = itemView.findViewById(R.id.tvAuthor);
             tvQuotes = itemView.findViewById(R.id.tvQuote);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    interOnItemClickListener.onItemClick(listaQuotes.get(getAdapterPosition()));
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Quotation quotation);
     }
 }

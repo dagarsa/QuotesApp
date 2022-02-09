@@ -13,7 +13,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +60,32 @@ public class FavouriteActivity extends AppCompatActivity {
         DividerItemDecoration divider = new DividerItemDecoration(this, 1);
         recycler.addItemDecoration(divider);
         List<Quotation> data = getMockQuotations();
-        IntermediarioVistaDatos adapter = new IntermediarioVistaDatos(data);
+        IntermediarioVistaDatos adapter = new IntermediarioVistaDatos(data, new IntermediarioVistaDatos.OnItemClickListener() {
+            @Override
+            public void onItemClick(Quotation quotation) {
+
+                if(quotation.getQuoteAuthor() == null || quotation.getQuoteAuthor() == ""){
+                    Toast.makeText(FavouriteActivity.this, "No ha sido posible obtener la información del autor", Toast.LENGTH_SHORT).show();
+                }else {
+                    String authorName = null;
+                    try {
+                        authorName = URLEncoder.encode(quotation.getQuoteAuthor(), "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://en.wikipedia.org/wiki/Special:Search?search=" + authorName));
+
+                    List<ResolveInfo> activities =
+                            getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                    // Comprobar que puede resolverse la actividad requerida
+                    if (activities.size() > 0) {
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
         recycler.setAdapter(adapter);
 
 
@@ -72,9 +100,9 @@ public class FavouriteActivity extends AppCompatActivity {
         lista.add(new Quotation("Ave que vuela a la cazuela", "Dicho popular"));
         lista.add(new Quotation("Siempre negativo, nunca positivo", "Louis Van Gaal"));
         lista.add(new Quotation("Un gran poder conlleva una gran responsabilidad", "Tío de Spiderman"));
-        lista.add(new Quotation("cita1", "Yo"));
-        lista.add(new Quotation("cita2", "Yo"));
-        lista.add(new Quotation("cita3", "Yo"));
+        lista.add(new Quotation("cita1", ""));
+        lista.add(new Quotation("cita2", ""));
+        lista.add(new Quotation("cita3", ""));
 
         return lista;
     }
