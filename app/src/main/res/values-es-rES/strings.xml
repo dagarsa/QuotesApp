@@ -15,4 +15,7 @@
     <string name="aboutInfo">Quotation Shake de\n\nDaniel García Santes\n\ndagarsa7@upv.edu.es\n\nDesarrollado para DADM 2022</string>
     <string name="idiomaIngles">Inglés</string>
     <string name="idiomaRuso">Ruso</string>
+    <string name="confirmation">¿Estás seguro de querer eliminar esta cita?</string>
+    <string name="yes">SÍ</string>
+    <string name="toastNoCarga">No ha sido posible obtener la información del autor</string>
 </resources>

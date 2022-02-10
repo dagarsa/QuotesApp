@@ -17,4 +17,8 @@
     <string name="aboutInfo">Quotation Shake by\n\nDaniel García Santes\n\ndagarsa7@upv.edu.es\n\nDeveloped for DADM 2022</string>
     <string name="idiomaIngles">English</string>
     <string name="idiomaRuso">Russian</string>
+    <string name="confirmation">Are you sure that you want to delete this quotation?</string>
+    <string name="yes">YES</string>
+    <string name="no" translatable="false">NO</string>
+    <string name="toastNoCarga">It has not been possible to obtain the authors information</string>
 </resources>

@@ -1,10 +1,12 @@
 package upv.dadm.quotesapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -24,6 +26,8 @@ import POJO.Quotation;
 import intermediario.IntermediarioVistaDatos;
 
 public class FavouriteActivity extends AppCompatActivity {
+
+    IntermediarioVistaDatos adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,19 +58,22 @@ public class FavouriteActivity extends AppCompatActivity {
 
         //bAuthor.setOnClickListener(onClickMethod);
 
+        //Se crea solo una alerta
+
+
         RecyclerView recycler = findViewById(R.id.rview);
         RecyclerView.LayoutManager manager = new GridLayoutManager(this, 1);
         recycler.setLayoutManager(manager);
         DividerItemDecoration divider = new DividerItemDecoration(this, 1);
         recycler.addItemDecoration(divider);
         List<Quotation> data = getMockQuotations();
-        IntermediarioVistaDatos adapter = new IntermediarioVistaDatos(data, new IntermediarioVistaDatos.OnItemClickListener() {
+        adapter = new IntermediarioVistaDatos(data, new IntermediarioVistaDatos.OnItemClickListener() {
             @Override
             public void onItemClick(Quotation quotation) {
 
-                if(quotation.getQuoteAuthor() == null || quotation.getQuoteAuthor() == ""){
-                    Toast.makeText(FavouriteActivity.this, "No ha sido posible obtener la información del autor", Toast.LENGTH_SHORT).show();
-                }else {
+                if (quotation.getQuoteAuthor() == null || quotation.getQuoteAuthor() == "") {
+                    Toast.makeText(FavouriteActivity.this, getString(R.string.toastNoCarga), Toast.LENGTH_SHORT).show();
+                } else {
                     String authorName = null;
                     try {
                         authorName = URLEncoder.encode(quotation.getQuoteAuthor(), "UTF-8");
@@ -85,9 +92,22 @@ public class FavouriteActivity extends AppCompatActivity {
                     }
                 }
             }
+        }, new IntermediarioVistaDatos.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(int position) {
+                AlertDialog.Builder alerta = new AlertDialog.Builder(FavouriteActivity.this);
+                alerta.setMessage(getString(R.string.confirmation));
+                alerta.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        adapter.eliminarItem(position);
+                    }
+                });
+                alerta.setNegativeButton(getString(R.string.no), null);
+                alerta.create().show();
+            }
         });
         recycler.setAdapter(adapter);
-
 
     }
 
