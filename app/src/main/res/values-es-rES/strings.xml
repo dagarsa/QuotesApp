@@ -18,4 +18,8 @@
     <string name="confirmation">¿Estás seguro de querer eliminar esta cita?</string>
     <string name="yes">SÍ</string>
     <string name="toastNoCarga">No ha sido posible obtener la información del autor</string>
+    <string name="add">Añadir</string>
+    <string name="refresh">Recargar</string>
+    <string name="borradoTodo">Borrar todo</string>
+    <string name="confirmationAll">¿Estás seguro de querer eliminar TODAS las citas?</string>
 </resources>

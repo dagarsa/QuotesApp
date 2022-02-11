@@ -21,4 +21,8 @@
     <string name="yes">YES</string>
     <string name="no" translatable="false">NO</string>
     <string name="toastNoCarga">It has not been possible to obtain the authors information</string>
+    <string name="add">Add</string>
+    <string name="refresh">Refresh</string>
+    <string name="borradoTodo">Clear All</string>
+    <string name="confirmationAll">Are you sure that you want to delete ALL this quotation?</string>
 </resources>

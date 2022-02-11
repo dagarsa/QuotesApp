@@ -1,12 +1,12 @@
 package upv.dadm.quotesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.inputmethod.ExtractedText;
-import android.widget.ImageButton;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class QuotationActivity extends AppCompatActivity {
@@ -21,7 +21,8 @@ public class QuotationActivity extends AppCompatActivity {
         String tvGetHello = getString(R.string.tvGetHello, name);
         tvName.setText(tvGetHello);
 
-        ImageButton iButton = findViewById(R.id.iButton);
+        //Comentado ya que era un antiguo botón de Refresh
+        /*ImageButton iButton = findViewById(R.id.iButton);
 
         iButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,7 +33,31 @@ public class QuotationActivity extends AppCompatActivity {
                 tvQuotation.setText(getString(R.string.tvSample));
                 tvAbajo.setText(getString(R.string.tvSampleAuthor));
             }
-        });
+        });*/
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_quotation_activity, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.nuevaCita){
+            TextView tvQuotation = findViewById(R.id.tvHello);
+            TextView tvAbajo = findViewById(R.id.tvAbajo);
+
+            tvQuotation.setText(getString(R.string.tvSample));
+            tvAbajo.setText(getString(R.string.tvSampleAuthor));
+            return true;
+        }
+        if(item.getItemId() == R.id.citaFav){
+            //Se completará esto durante la Práctica 3
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

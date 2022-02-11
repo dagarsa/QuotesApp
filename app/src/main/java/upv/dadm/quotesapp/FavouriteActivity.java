@@ -1,5 +1,6 @@
 package upv.dadm.quotesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -13,6 +14,9 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -113,7 +117,7 @@ public class FavouriteActivity extends AppCompatActivity {
 
     public List<Quotation> getMockQuotations(){
         List<Quotation> lista = new ArrayList<>();
-        lista.add(new Quotation("Ganar, ganar y volver a ganar", "Luis Aragonés"));
+        /*lista.add(new Quotation("Ganar, ganar y volver a ganar", "Luis Aragonés"));
         lista.add(new Quotation("Tocó en Hugo Duro", "Miguel Ángel Román"));
         lista.add(new Quotation("Iniesta de mi vida", "Camacho"));
         lista.add(new Quotation("Amunt Valencia!", "Dicho popular"));
@@ -122,8 +126,37 @@ public class FavouriteActivity extends AppCompatActivity {
         lista.add(new Quotation("Un gran poder conlleva una gran responsabilidad", "Tío de Spiderman"));
         lista.add(new Quotation("cita1", ""));
         lista.add(new Quotation("cita2", ""));
-        lista.add(new Quotation("cita3", ""));
+        lista.add(new Quotation("cita3", ""));*/
 
         return lista;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(getMockQuotations().isEmpty()){
+            MenuItem item = menu.getItem(R.id.borradoCitas);
+            item.setVisible(false);
+        }
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_favourite_activity, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        AlertDialog.Builder alerta = new AlertDialog.Builder(FavouriteActivity.this);
+        alerta.setMessage(getString(R.string.confirmationAll));
+        alerta.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                adapter.eliminarTodo();
+                item.setVisible(false);
+            }
+        });
+        alerta.setNegativeButton(getString(R.string.no), null);
+        alerta.create().show();
+        return super.onOptionsItemSelected(item);
     }
 }

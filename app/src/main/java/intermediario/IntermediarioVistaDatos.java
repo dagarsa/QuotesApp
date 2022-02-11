@@ -13,7 +13,7 @@ import java.util.List;
 
 import POJO.Quotation;
 import upv.dadm.quotesapp.R;
-
+//Clase adapter
 public class IntermediarioVistaDatos extends RecyclerView.Adapter<IntermediarioVistaDatos.ViewHolder>{
 
     private List<Quotation> listaQuotes;
@@ -87,5 +87,12 @@ public class IntermediarioVistaDatos extends RecyclerView.Adapter<IntermediarioV
     public void eliminarItem(int itemLista){
         listaQuotes.remove(itemLista);
         notifyItemRemoved(itemLista);
+    }
+
+    //Método para eliminar item
+    public void eliminarTodo(){
+        int tamanyo = listaQuotes.size();
+        listaQuotes.removeAll(listaQuotes);
+        notifyItemRangeRemoved(0, tamanyo);
     }
 }
