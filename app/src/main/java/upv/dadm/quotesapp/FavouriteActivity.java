@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -117,7 +118,7 @@ public class FavouriteActivity extends AppCompatActivity {
 
     public List<Quotation> getMockQuotations(){
         List<Quotation> lista = new ArrayList<>();
-        /*lista.add(new Quotation("Ganar, ganar y volver a ganar", "Luis Aragonés"));
+        lista.add(new Quotation("Ganar, ganar y volver a ganar", "Luis Aragonés"));
         lista.add(new Quotation("Tocó en Hugo Duro", "Miguel Ángel Román"));
         lista.add(new Quotation("Iniesta de mi vida", "Camacho"));
         lista.add(new Quotation("Amunt Valencia!", "Dicho popular"));
@@ -126,20 +127,20 @@ public class FavouriteActivity extends AppCompatActivity {
         lista.add(new Quotation("Un gran poder conlleva una gran responsabilidad", "Tío de Spiderman"));
         lista.add(new Quotation("cita1", ""));
         lista.add(new Quotation("cita2", ""));
-        lista.add(new Quotation("cita3", ""));*/
+        lista.add(new Quotation("cita3", ""));
 
         return lista;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(getMockQuotations().isEmpty()){
-            MenuItem item = menu.getItem(R.id.borradoCitas);
-            item.setVisible(false);
-        }
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
+
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_favourite_activity, menu);
-
+        if(getMockQuotations().isEmpty()){
+            MenuItem item = menu.getItem(0);
+            item.setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
