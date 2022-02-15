@@ -18,6 +18,7 @@
 
             <TextView
                 android:id="@+id/tvName"
+                style="@style/TextView24"
                 android:layout_width="411dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tvName"
@@ -40,6 +41,7 @@
 
             <TextView
                 android:id="@+id/tvGetQuotations"
+                style="@style/TextView24"
                 android:layout_width="411dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tvGetQuotations"
@@ -59,6 +61,7 @@
 
             <TextView
                 android:id="@+id/tvMethod"
+                style="@style/TextView24"
                 android:layout_width="411dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"

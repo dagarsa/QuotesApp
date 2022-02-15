@@ -22,10 +22,10 @@
 
             <TextView
                 android:id="@+id/textView"
+                style="@style/TextView28"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/aboutInfo"
-                android:textSize="40sp"
                 app:layout_constraintBottom_toTopOf="@+id/fotoDni"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
