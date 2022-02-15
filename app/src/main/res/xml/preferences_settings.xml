@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:title="@string/username"
+        android:key="username"></EditTextPreference>
+
+    <PreferenceCategory android:title="@string/obtainQuotes" android:key="obtainQuotes">
+        <ListPreference android:title="@string/quotationLanguage" android:key="quotationLanguage"
+            android:entries="@array/idiomas"
+            android:entryValues="@array/idiomasValue"></ListPreference>
+        <ListPreference android:title="@string/httpRequest" android:key="httpRequest"
+            android:entries="@array/httpEleccion"
+            android:entryValues="@array/httpEleccion"></ListPreference>
+    </PreferenceCategory>
+</PreferenceScreen>

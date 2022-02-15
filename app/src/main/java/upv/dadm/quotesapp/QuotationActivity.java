@@ -2,7 +2,9 @@ package upv.dadm.quotesapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,8 +18,14 @@ public class QuotationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quotation);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String name = sharedPreferences.getString("username", "");
+
+        if (name.replace(" ","").equals("")){
+            name = "Nameless One";
+        }
+
         TextView tvName = findViewById(R.id.tvHello);
-        String name = " Nameless One";
         String tvGetHello = getString(R.string.tvGetHello, name);
         tvName.setText(tvGetHello);
 

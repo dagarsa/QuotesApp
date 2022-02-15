@@ -2,6 +2,15 @@
 <resources>
     <string-array name="idiomas">
         <item>@string/idiomaIngles</item>
-        <item>@string/idiomaRuso</item>
+        <item>@string/idiomaEs</item>
     </string-array>
+
+    <array name="httpEleccion">
+        <item>@string/tvGet</item>
+        <item>@string/tvPost</item>
+    </array>
+    <array name="idiomasValue">
+        <item>ES</item>
+        <item>EN</item>
+    </array>
 </resources>

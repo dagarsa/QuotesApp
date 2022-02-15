@@ -24,6 +24,12 @@
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@color/purple_500</item>
         <item name="android:textSize">@dimen/dimen16</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+    <style name="TextView15">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">@color/teal_700</item>
+        <item name="android:textSize">@dimen/dimen15</item>
     </style>
 
     <style name="TextView28">
