@@ -10,8 +10,8 @@
     <string name="tvMethod">Pide citas usando el método HTTP seleccionado</string>
     <string name="bAuthor">Información del autor</string>
     <string name="tvGetHello">Hola %1s!\nPulsa Refresh para obtener una nueva cita</string>
-    <string name="tvSample">Esto es un ejemplo de una cita</string>
-    <string name="tvSampleAuthor">Ejemplo de autor</string>
+    <string name="tvSample">Ejemplo de una cita %1$d</string>
+    <string name="tvSampleAuthor">Ejemplo de autor %1$d</string>
     <string name="aboutInfo">Quotation Shake de\n\nDaniel García Santes\n\ndagarsa7@upv.edu.es\n\nDesarrollado para DADM 2022</string>
     <string name="idiomaIngles">Inglés</string>
     <string name="idiomaEs">Español</string>
