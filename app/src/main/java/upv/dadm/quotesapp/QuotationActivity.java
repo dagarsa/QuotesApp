@@ -11,6 +11,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import POJO.Quotation;
+import databases.AbstractQuotation;
+
 public class QuotationActivity extends AppCompatActivity {
 
     private int nCitas = 0;
@@ -82,7 +85,15 @@ public class QuotationActivity extends AppCompatActivity {
             tvQuotation.setText(getString(R.string.tvSample, nCitas));
             tvAbajo.setText(getString(R.string.tvSampleAuthor, nCitas));
             nCitas++;
-            addVisible = true;
+
+            //Se busca un Quotation con el String de la cita actual
+            Quotation quotation = AbstractQuotation.getInstace(this).getQuotationDao().findByString(tvQuotation.getText().toString());
+
+            if(quotation==null){
+                addVisible = true;
+            }else {
+                addVisible = false;
+            }
             menu.findItem(R.id.citaFav).setVisible(addVisible);
             return true;
         }
@@ -90,6 +101,8 @@ public class QuotationActivity extends AppCompatActivity {
             //Se completará esto durante la Práctica 3
             addVisible = false;
             menu.findItem(R.id.citaFav).setVisible(addVisible);
+            Quotation quotation = new Quotation(tvQuotation.getText().toString(), tvAbajo.getText().toString());
+            AbstractQuotation.getInstace(this).getQuotationDao().addQuote(quotation);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -98,8 +111,8 @@ public class QuotationActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("tvQuotation", (String) tvQuotation.getText());
-        outState.putString("tvAbajo", (String) tvAbajo.getText());
+        outState.putString("tvQuotation", tvQuotation.getText().toString());
+        outState.putString("tvAbajo", tvAbajo.getText().toString());
         outState.putBoolean("addVisible", addVisible);
         outState.putInt("nCitas", nCitas);
     }

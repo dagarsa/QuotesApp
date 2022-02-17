@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import POJO.Quotation;
+import databases.AbstractQuotation;
 import intermediario.IntermediarioVistaDatos;
 
 public class FavouriteActivity extends AppCompatActivity {
@@ -71,11 +72,10 @@ public class FavouriteActivity extends AppCompatActivity {
         recycler.setLayoutManager(manager);
         DividerItemDecoration divider = new DividerItemDecoration(this, 1);
         recycler.addItemDecoration(divider);
-        List<Quotation> data = getMockQuotations();
+        List<Quotation> data = AbstractQuotation.getInstace(this).getQuotationDao().findAllQuotes();
         adapter = new IntermediarioVistaDatos(data, new IntermediarioVistaDatos.OnItemClickListener() {
             @Override
             public void onItemClick(Quotation quotation) {
-
                 if (quotation.getQuoteAuthor() == null || quotation.getQuoteAuthor() == "") {
                     Toast.makeText(FavouriteActivity.this, getString(R.string.toastNoCarga), Toast.LENGTH_SHORT).show();
                 } else {
@@ -105,6 +105,7 @@ public class FavouriteActivity extends AppCompatActivity {
                 alerta.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        AbstractQuotation.getInstace(FavouriteActivity.this).getQuotationDao().deleteQuote(data.get(position));
                         adapter.eliminarItem(position);
                     }
                 });
@@ -116,28 +117,12 @@ public class FavouriteActivity extends AppCompatActivity {
 
     }
 
-    public List<Quotation> getMockQuotations(){
-        List<Quotation> lista = new ArrayList<>();
-        lista.add(new Quotation("Ganar, ganar y volver a ganar", "Luis Aragonés"));
-        lista.add(new Quotation("Tocó en Hugo Duro", "Miguel Ángel Román"));
-        lista.add(new Quotation("Iniesta de mi vida", "Camacho"));
-        lista.add(new Quotation("Amunt Valencia!", "Dicho popular"));
-        lista.add(new Quotation("Ave que vuela a la cazuela", "Dicho popular"));
-        lista.add(new Quotation("Siempre negativo, nunca positivo", "Louis Van Gaal"));
-        lista.add(new Quotation("Un gran poder conlleva una gran responsabilidad", "Tío de Spiderman"));
-        lista.add(new Quotation("cita1", ""));
-        lista.add(new Quotation("cita2", ""));
-        lista.add(new Quotation("cita3", ""));
-
-        return lista;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_favourite_activity, menu);
-        if(getMockQuotations().isEmpty()){
+        if(AbstractQuotation.getInstace(this).getQuotationDao().findAllQuotes().isEmpty()){
             MenuItem item = menu.getItem(0);
             item.setVisible(false);
         }
@@ -153,11 +138,31 @@ public class FavouriteActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 adapter.eliminarTodo();
+                AbstractQuotation.getInstace(FavouriteActivity.this).getQuotationDao().deleteAllQuotes();
                 item.setVisible(false);
             }
         });
         alerta.setNegativeButton(getString(R.string.no), null);
         alerta.create().show();
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+    //Mock de citas de las primera prácticas
+    public List<Quotation> getMockQuotations(){
+        List<Quotation> lista = new ArrayList<>();
+        lista.add(new Quotation("Ganar, ganar y volver a ganar", "Luis Aragonés"));
+        lista.add(new Quotation("Tocó en Hugo Duro", "Miguel Ángel Román"));
+        lista.add(new Quotation("Iniesta de mi vida", "Camacho"));
+        lista.add(new Quotation("Amunt Valencia!", "Dicho popular"));
+        lista.add(new Quotation("Ave que vuela a la cazuela", "Dicho popular"));
+        lista.add(new Quotation("Siempre negativo, nunca positivo", "Louis Van Gaal"));
+        lista.add(new Quotation("Un gran poder conlleva una gran responsabilidad", "Tío de Spiderman"));
+        lista.add(new Quotation("cita1", ""));
+        lista.add(new Quotation("cita2", ""));
+        lista.add(new Quotation("cita3", ""));
+
+        return lista;
     }
 }
