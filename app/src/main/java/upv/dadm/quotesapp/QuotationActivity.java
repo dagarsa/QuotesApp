@@ -11,17 +11,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.List;
+
 import POJO.Quotation;
 import databases.AbstractQuotation;
+import intermediario.IntermediarioVistaDatos;
+import threads.BackgroundThreadFavourite;
+import threads.BackgroundThreadQuotation;
 
 public class QuotationActivity extends AppCompatActivity {
 
     private int nCitas = 0;
 
-    private Menu menu;
-
-    TextView tvQuotation;
-    TextView tvAbajo;
+    private TextView tvQuotation;
+    private TextView tvAbajo;
 
     private boolean addVisible;
 
@@ -50,29 +53,12 @@ public class QuotationActivity extends AppCompatActivity {
             addVisible = savedInstanceState.getBoolean("addVisible");
         }
 
-
-
-        //Comentado ya que era un antiguo botón de Refresh
-        /*ImageButton iButton = findViewById(R.id.iButton);
-
-        iButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TextView tvQuotation = findViewById(R.id.tvHello);
-                TextView tvAbajo = findViewById(R.id.tvAbajo);
-
-                tvQuotation.setText(getString(R.string.tvSample));
-                tvAbajo.setText(getString(R.string.tvSampleAuthor));
-            }
-        });*/
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_quotation_activity, menu);
-        this.menu = menu;
         menu.findItem(R.id.citaFav).setVisible(addVisible);
         return super.onCreateOptionsMenu(menu);
     }
@@ -86,23 +72,26 @@ public class QuotationActivity extends AppCompatActivity {
             tvAbajo.setText(getString(R.string.tvSampleAuthor, nCitas));
             nCitas++;
 
-            //Se busca un Quotation con el String de la cita actual
-            Quotation quotation = AbstractQuotation.getInstace(this).getQuotationDao().findByString(tvQuotation.getText().toString());
+            //Llamar mi hilo que actualizará interfaz
+            new BackgroundThreadQuotation(this).start();
 
-            if(quotation==null){
-                addVisible = true;
-            }else {
-                addVisible = false;
-            }
-            menu.findItem(R.id.citaFav).setVisible(addVisible);
             return true;
         }
         if(item.getItemId() == R.id.citaFav){
-            //Se completará esto durante la Práctica 3
             addVisible = false;
-            menu.findItem(R.id.citaFav).setVisible(addVisible);
+
             Quotation quotation = new Quotation(tvQuotation.getText().toString(), tvAbajo.getText().toString());
-            AbstractQuotation.getInstace(this).getQuotationDao().addQuote(quotation);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                // Include here the code to access the database
+                    AbstractQuotation.getInstace(QuotationActivity.this).getQuotationDao().addQuote(quotation);
+                }
+            }).start();
+
+            //Llama otra vez a onCreateOptionsMenu
+            invalidateOptionsMenu();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -115,5 +104,17 @@ public class QuotationActivity extends AppCompatActivity {
         outState.putString("tvAbajo", tvAbajo.getText().toString());
         outState.putBoolean("addVisible", addVisible);
         outState.putInt("nCitas", nCitas);
+    }
+
+    public void callAdapterMethod(Quotation quotation){
+        //Comprobar si hay la cita es favorita o no
+        addVisible = quotation == null;
+
+        //Llama otra vez a onCreateOptionsMenu
+        invalidateOptionsMenu();
+    }
+
+    public TextView getTvQuotation() {
+        return tvQuotation;
     }
 }

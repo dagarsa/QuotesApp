@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
@@ -30,50 +28,26 @@ import java.util.List;
 import POJO.Quotation;
 import databases.AbstractQuotation;
 import intermediario.IntermediarioVistaDatos;
+import threads.BackgroundThreadFavourite;
 
 public class FavouriteActivity extends AppCompatActivity {
 
     IntermediarioVistaDatos adapter;
 
+    boolean removeVisible;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite);
-        //Button bAuthor = findViewById(R.id.bAuthor);
-
-        View.OnClickListener onClickMethod = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //Botón Authot Info comentado
-                /*if(bAuthor.isPressed()) {
-                    String authorName = "Albert Enstein";
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("https://en.wikipedia.org/wiki/Special:Search?search=" + authorName));
-
-                    List<ResolveInfo> activities =
-                            getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-                    // Comprobar que puede resolverse la actividad requerida
-                    if (activities.size() > 0) {
-                        startActivity(intent);
-                    }
-                }*/
-            }
-        };
-
-        //bAuthor.setOnClickListener(onClickMethod);
-
-        //Se crea solo una alerta
-
-
+        
         RecyclerView recycler = findViewById(R.id.rview);
         RecyclerView.LayoutManager manager = new GridLayoutManager(this, 1);
         recycler.setLayoutManager(manager);
         DividerItemDecoration divider = new DividerItemDecoration(this, 1);
         recycler.addItemDecoration(divider);
-        List<Quotation> data = AbstractQuotation.getInstace(this).getQuotationDao().findAllQuotes();
-        adapter = new IntermediarioVistaDatos(data, new IntermediarioVistaDatos.OnItemClickListener() {
+        //List<Quotation> data = AbstractQuotation.getInstace(this).getQuotationDao().findAllQuotes();
+        adapter = new IntermediarioVistaDatos(new ArrayList<Quotation>(), new IntermediarioVistaDatos.OnItemClickListener() {
             @Override
             public void onItemClick(Quotation quotation) {
                 if (quotation.getQuoteAuthor() == null || quotation.getQuoteAuthor() == "") {
@@ -105,8 +79,21 @@ public class FavouriteActivity extends AppCompatActivity {
                 alerta.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        AbstractQuotation.getInstace(FavouriteActivity.this).getQuotationDao().deleteQuote(data.get(position));
+                        Quotation quotation = adapter.getQuotationAt(position);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Include here the code to access the database
+                                AbstractQuotation.getInstace(FavouriteActivity.this).getQuotationDao().deleteQuote(quotation/*data.get(position)*/);
+                            }
+                        }).start();
                         adapter.eliminarItem(position);
+
+                        //Comprobar si hay o no citas después de haber eliminado una
+                        removeVisible = adapter.getItemCount() > 0;
+
+                        //Llama otra vez a onCreateOptionsMenu
+                        invalidateOptionsMenu();
                     }
                 });
                 alerta.setNegativeButton(getString(R.string.no), null);
@@ -122,29 +109,40 @@ public class FavouriteActivity extends AppCompatActivity {
 
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_favourite_activity, menu);
-        if(AbstractQuotation.getInstace(this).getQuotationDao().findAllQuotes().isEmpty()){
-            MenuItem item = menu.getItem(0);
-            item.setVisible(false);
-        }
+        MenuItem item = menu.findItem(R.id.borradoCitas);
+        item.setVisible(removeVisible);
         return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        AlertDialog.Builder alerta = new AlertDialog.Builder(FavouriteActivity.this);
-        alerta.setMessage(getString(R.string.confirmationAll));
-        alerta.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                adapter.eliminarTodo();
-                AbstractQuotation.getInstace(FavouriteActivity.this).getQuotationDao().deleteAllQuotes();
-                item.setVisible(false);
-            }
-        });
-        alerta.setNegativeButton(getString(R.string.no), null);
-        alerta.create().show();
-        return super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.borradoCitas){
+            AlertDialog.Builder alerta = new AlertDialog.Builder(FavouriteActivity.this);
+            alerta.setMessage(getString(R.string.confirmationAll));
+            alerta.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    adapter.eliminarTodo();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Include here the code to access the database
+                            AbstractQuotation.getInstace(FavouriteActivity.this).getQuotationDao().deleteAllQuotes();
+                        }
+                    }).start();
+                    removeVisible = false;
+
+                    //Llama otra vez a onCreateOptionsMenu
+                    invalidateOptionsMenu();
+                }
+            });
+            alerta.setNegativeButton(getString(R.string.no), null);
+            alerta.create().show();
+            return true;
+        }else{
+            return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -164,5 +162,21 @@ public class FavouriteActivity extends AppCompatActivity {
         lista.add(new Quotation("cita3", ""));
 
         return lista;
+    }
+
+    public void callAdapterMethod(List<Quotation> list){
+        adapter.addFavQuotesAndNotify(list);
+        //Comprobar si hay o no citas después de haber eliminado una
+        removeVisible = adapter.getItemCount() > 0;
+
+        //Llama otra vez a onCreateOptionsMenu
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    protected void onResume() {
+        BackgroundThreadFavourite backgroundThreadFavourite = new BackgroundThreadFavourite(this);
+        backgroundThreadFavourite.start();
+        super.onResume();
     }
 }

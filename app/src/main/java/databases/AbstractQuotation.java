@@ -15,7 +15,7 @@ public abstract class AbstractQuotation extends RoomDatabase {
 
     public static synchronized AbstractQuotation getInstace(Context context){
         if(instancia == null){
-            instancia = Room.databaseBuilder(context, AbstractQuotation.class, "quotation").allowMainThreadQueries().build();
+            instancia = Room.databaseBuilder(context, AbstractQuotation.class, "quotation").build();//.allowMainThreadQueries().build();
         }
         return instancia;
     }

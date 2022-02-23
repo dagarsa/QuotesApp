@@ -95,4 +95,14 @@ public class IntermediarioVistaDatos extends RecyclerView.Adapter<IntermediarioV
         listaQuotes.removeAll(listaQuotes);
         notifyItemRangeRemoved(0, tamanyo);
     }
+
+
+    public void addFavQuotesAndNotify(List<Quotation> list){
+        listaQuotes.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public Quotation getQuotationAt(int position){
+        return listaQuotes.get(position);
+    }
 }
