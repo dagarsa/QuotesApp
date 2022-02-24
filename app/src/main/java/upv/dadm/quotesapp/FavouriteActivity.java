@@ -40,7 +40,7 @@ public class FavouriteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite);
-        
+
         RecyclerView recycler = findViewById(R.id.rview);
         RecyclerView.LayoutManager manager = new GridLayoutManager(this, 1);
         recycler.setLayoutManager(manager);

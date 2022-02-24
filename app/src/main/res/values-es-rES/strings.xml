@@ -26,4 +26,6 @@
     <string name="obtainQuotes">Obtener citas</string>
     <string name="quotationLanguage">Idioma de las citas</string>
     <string name="httpRequest">Petición HTTP</string>
+    <string name="mensajeCitaNula">No ha sido posible obtener una cita</string>
+    <string name="sinConexion">Sin Conexión</string>
 </resources>
