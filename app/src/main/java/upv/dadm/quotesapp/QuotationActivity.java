@@ -105,10 +105,10 @@ public class QuotationActivity extends AppCompatActivity {
             String http = sharedPreferences.getString("httpRequest", "");
 
             if(hasInternet()){
-
+                String language = sharedPreferences.getString("quotationLanguage","");
                 if(http.equals("GET")){
                     ocultarActionBarVisibleProgressBar();
-                    Call<Quotation> call = webService.getQuotationWeb("en");
+                    Call<Quotation> call = webService.getQuotationWeb(language);
                     call.enqueue(new Callback<Quotation>() {
                         @Override
                         public void onResponse(@NonNull Call<Quotation> call, @NonNull Response<Quotation> response) {
@@ -125,7 +125,7 @@ public class QuotationActivity extends AppCompatActivity {
                 }
                 if(http.equals("POST")){
                     ocultarActionBarVisibleProgressBar();
-                    Call<Quotation> call = webService.postQuotation("getQuote", "json", "en");
+                    Call<Quotation> call = webService.postQuotation("getQuote", "json", language);
                     call.enqueue(new Callback<Quotation>() {
                         @Override
                         public void onResponse(Call<Quotation> call, Response<Quotation> response) {

@@ -28,4 +28,5 @@
     <string name="httpRequest">Petición HTTP</string>
     <string name="mensajeCitaNula">No ha sido posible obtener una cita</string>
     <string name="sinConexion">Sin Conexión</string>
+    <string name="idiomaRus">Ruso</string>
 </resources>

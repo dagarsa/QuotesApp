@@ -2,7 +2,7 @@
 <resources>
     <string-array name="idiomas">
         <item>@string/idiomaIngles</item>
-        <item>@string/idiomaEs</item>
+        <item>@string/idiomaRus</item>
     </string-array>
 
     <array name="httpEleccion">
@@ -10,7 +10,7 @@
         <item>@string/tvPost</item>
     </array>
     <array name="idiomasValue">
-        <item>ES</item>
-        <item>EN</item>
+        <item>en</item>
+        <item>ru</item>
     </array>
 </resources>
