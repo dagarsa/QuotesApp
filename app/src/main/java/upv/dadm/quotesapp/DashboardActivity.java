@@ -1,13 +1,25 @@
 package upv.dadm.quotesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+
+import fragments.AboutFragment;
+import fragments.FavouriteFragment;
+import fragments.QuotationFragment;
+import fragments.SettingsFragment;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -16,44 +28,63 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        Button bGet = findViewById(R.id.bGet);
-        Button bFavourite = findViewById(R.id.bFavourite);
-        Button bSettings = findViewById(R.id.bSettings);
-        Button bAbout = findViewById(R.id.bAbout);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bnvDashboard);
 
-        Log.d("mensaje", "estoy en dasboardActivity");
-
-        View.OnClickListener onClickMethod = new View.OnClickListener() {
+        NavigationBarView.OnItemSelectedListener onItemSelectedListener = new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent;
-                if (bGet.isPressed()){
-                    //Toast.makeText(DashboardActivity.this, "Has pulsado " + bGet.getText(), Toast.LENGTH_LONG).show();
-                    intent = new Intent(DashboardActivity.this, QuotationActivity.class);
-                    startActivity(intent);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Class<? extends Fragment> fragment = null;
+                if (item.getItemId() == R.id.itemGetQuotation){
+                    fragment = QuotationFragment.class;
+                    getSupportActionBar().setTitle(R.string.get);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace(R.id.fcvDashboard, fragment, null)
+                            .commit();
                 }
-                if (bFavourite.isPressed()){
-                    //Toast.makeText(DashboardActivity.this, "Has pulsado " + bFavourite.getText(), Toast.LENGTH_LONG).show();
-                    intent = new Intent(DashboardActivity.this, FavouriteActivity.class);
-                    startActivity(intent);
+                if (item.getItemId() == R.id.itemFavourite){
+                    fragment = FavouriteFragment.class;
+                    getSupportActionBar().setTitle(R.string.favourite);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace(R.id.fcvDashboard, fragment, null)
+                            .commit();
                 }
-                if (bSettings.isPressed()){
-                    //Toast.makeText(DashboardActivity.this, "Has pulsado " + bSettings.getText(), Toast.LENGTH_LONG).show();
-                    intent = new Intent(DashboardActivity.this, SettingsActivity.class);
-                    startActivity(intent);
+                if (item.getItemId() == R.id.itemSettings){
+                    fragment = SettingsFragment.class;
+                    getSupportActionBar().setTitle(R.string.settings);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace(R.id.fcvDashboard, fragment, null)
+                            .commit();
                 }
-                if (bAbout.isPressed()){
-                    //Toast.makeText(DashboardActivity.this, "Has pulsado " + bAbout.getText(), Toast.LENGTH_LONG).show();
-                    intent = new Intent(DashboardActivity.this, AboutActivity.class);
-                    startActivity(intent);
+                if (item.getItemId() == R.id.itemAbout){
+                    fragment = AboutFragment.class;
+                    getSupportActionBar().setTitle(R.string.about);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace(R.id.fcvDashboard, fragment, null)
+                            .commit();
                 }
-
+                return true;
             }
         };
 
-        bGet.setOnClickListener(onClickMethod);
-        bFavourite.setOnClickListener(onClickMethod);
-        bSettings.setOnClickListener(onClickMethod);
-        bAbout.setOnClickListener(onClickMethod);
+        bottomNavigationView.setOnItemSelectedListener(onItemSelectedListener);
+
+        Class<? extends Fragment> fragment = null;
+        if(savedInstanceState==null){
+            fragment = QuotationFragment.class;
+            getSupportActionBar().setTitle(R.string.get);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setReorderingAllowed(true)
+                    .replace(R.id.fcvDashboard, fragment, null)
+                    .commit();
+        }
     }
 }

@@ -5,25 +5,25 @@ import java.util.List;
 
 import POJO.Quotation;
 import databases.AbstractQuotation;
-import upv.dadm.quotesapp.FavouriteActivity;
+import fragments.FavouriteFragment;
 
 public class BackgroundThreadFavourite extends Thread{
 
-    private WeakReference<FavouriteActivity> reference;
+    private WeakReference<FavouriteFragment> reference;
 
-    public BackgroundThreadFavourite(FavouriteActivity favouriteActivity){
-        reference = new WeakReference<>(favouriteActivity);
+    public BackgroundThreadFavourite(FavouriteFragment favouriteFragment){
+        reference = new WeakReference<>(favouriteFragment);
     }
 
     @Override
     public void run() {
-        FavouriteActivity favouriteActivity = reference.get();
-        if (favouriteActivity != null){
-            List<Quotation> list = AbstractQuotation.getInstace(favouriteActivity).getQuotationDao().findAllQuotes();
-            reference.get().runOnUiThread(new Runnable() {
+        FavouriteFragment favouriteFragment = reference.get();
+        if (favouriteFragment != null){
+            List<Quotation> list = AbstractQuotation.getInstace(favouriteFragment.requireContext()).getQuotationDao().findAllQuotes();
+            favouriteFragment.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    favouriteActivity.callAdapterMethod(list);
+                    favouriteFragment.callAdapterMethod(list);
                 }
             });
         }

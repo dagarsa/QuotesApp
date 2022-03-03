@@ -1,35 +1,32 @@
 package threads;
 
+import androidx.fragment.app.FragmentActivity;
+
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 import POJO.Quotation;
 import databases.AbstractQuotation;
-import upv.dadm.quotesapp.QuotationActivity;
+import fragments.QuotationFragment;
 
 public class BackgroundThreadQuotation extends Thread{
 
-    private WeakReference<QuotationActivity> reference;
+    private WeakReference<QuotationFragment> reference;
 
-    public BackgroundThreadQuotation(QuotationActivity quotationActivity){
-        reference = new WeakReference<>(quotationActivity);
+    public BackgroundThreadQuotation(QuotationFragment quotationFragment){
+        reference = new WeakReference<>(quotationFragment);
     }
 
     @Override
     public void run() {
-        QuotationActivity quotationActivity = reference.get();
-        if (quotationActivity != null){
-            if(quotationActivity.getTvQuotation()!=null) {
-                String quotationString = quotationActivity.getTvQuotation().getText().toString();
-                Quotation quotation = AbstractQuotation.getInstace(quotationActivity).getQuotationDao().findByString(quotationString);
-                reference.get().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        quotationActivity.callAdapterMethod(quotation);
-                    }
-                });
+        QuotationFragment quotationFragment = reference.get();
+        FragmentActivity fragmentActivity =  quotationFragment.getActivity();
+        String quotationString = quotationFragment.getTvQuotation().getText().toString();
+        Quotation quotation = AbstractQuotation.getInstace(quotationFragment.requireContext()).getQuotationDao().findByString(quotationString);
+        fragmentActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                quotationFragment.callAdapterMethod(quotation);
             }
-        }
-        super.run();
+        });
     }
 }

@@ -1,8 +1,6 @@
-package upv.dadm.quotesapp;
+package fragments;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -12,30 +10,33 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import POJO.Quotation;
 import databases.AbstractQuotation;
-import intermediario.IntermediarioVistaDatos;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import threads.BackgroundThreadFavourite;
 import threads.BackgroundThreadQuotation;
+import upv.dadm.quotesapp.R;
 import webService.WebService;
 
-public class QuotationActivity extends AppCompatActivity {
-
-    //private int nCitas = 0;
+public class QuotationFragment extends Fragment {
 
     private TextView tvQuotation;
     private TextView tvAbajo;
@@ -45,24 +46,28 @@ public class QuotationActivity extends AppCompatActivity {
     Retrofit retrofit;
     WebService webService;
     Menu menu;
+    View view;
 
+    public QuotationFragment(){}
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quotation);
-
-        tvQuotation = findViewById(R.id.tvHello);
-        tvAbajo = findViewById(R.id.tvAbajo);
+        View view = inflater.inflate(R.layout.fragment_quotation, null);
+        this.view = view;
+        tvQuotation = view.findViewById(R.id.tvHello);
+        tvAbajo = view.findViewById(R.id.tvAbajo);
 
         if(savedInstanceState == null){
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
             String name = sharedPreferences.getString("username", "");
 
             if (name.replace(" ","").equals("")){
                 name = "Nameless One";
             }
 
-            TextView tvName = findViewById(R.id.tvHello);
+            TextView tvName = view.findViewById(R.id.tvHello);
             String tvGetHello = getString(R.string.tvGetHello, name);
             tvName.setText(tvGetHello);
         }else {
@@ -77,31 +82,27 @@ public class QuotationActivity extends AppCompatActivity {
                 .build();
 
         webService = retrofit.create(WebService.class);
+        return view;
+    }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_quotation_activity, menu);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_quotation_activity, menu);
         menu.findItem(R.id.citaFav).setVisible(addVisible);
         this.menu = menu;
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.nuevaCita){
-            /*tvQuotation = findViewById(R.id.tvHello);
-            tvAbajo = findViewById(R.id.tvAbajo);
-            tvQuotation.setText(getString(R.string.tvSample, nCitas));
-            tvAbajo.setText(getString(R.string.tvSampleAuthor, nCitas));
-            nCitas++;
-
-            //Llamar mi hilo que actualizará interfaz
-            new BackgroundThreadQuotation(this).start();*/
-
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
             String http = sharedPreferences.getString("httpRequest", "");
 
             if(hasInternet()){
@@ -134,13 +135,13 @@ public class QuotationActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<Quotation> call, Throwable t) {
-                            Toast.makeText(QuotationActivity.this, "Fallo en post", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Fallo en post", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
 
             }else {
-                Toast.makeText(this, getString(R.string.sinConexion), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.sinConexion), Toast.LENGTH_SHORT).show();
             }
 
             return true;
@@ -153,12 +154,12 @@ public class QuotationActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                 // Include here the code to access the database
-                    AbstractQuotation.getInstace(QuotationActivity.this).getQuotationDao().addQuote(quotation);
+                    AbstractQuotation.getInstace(requireContext()).getQuotationDao().addQuote(quotation);
                 }
             }).start();
 
             //Llama otra vez a onCreateOptionsMenu
-            invalidateOptionsMenu();
+            getActivity().invalidateOptionsMenu();
 
             return true;
         }
@@ -166,12 +167,11 @@ public class QuotationActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("tvQuotation", tvQuotation.getText().toString());
         outState.putString("tvAbajo", tvAbajo.getText().toString());
         outState.putBoolean("addVisible", addVisible);
-        //outState.putInt("nCitas", nCitas);
     }
 
     public void callAdapterMethod(Quotation quotation){
@@ -179,7 +179,7 @@ public class QuotationActivity extends AppCompatActivity {
         addVisible = quotation == null;
 
         //Llama otra vez a onCreateOptionsMenu
-        invalidateOptionsMenu();
+        getActivity().invalidateOptionsMenu();
     }
 
     public TextView getTvQuotation() {
@@ -188,7 +188,7 @@ public class QuotationActivity extends AppCompatActivity {
 
     public boolean hasInternet(){
         boolean result = false;
-        ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) requireContext().getSystemService(CONNECTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT > 22) {
             final Network activeNetwork = manager.getActiveNetwork();
             if (activeNetwork != null) {
@@ -207,16 +207,16 @@ public class QuotationActivity extends AppCompatActivity {
     public void ocultarActionBarVisibleProgressBar(){
         menu.findItem(R.id.nuevaCita).setVisible(false);
         menu.findItem(R.id.citaFav).setVisible(false);
-        this.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
     }
 
     public void nuevaCitaWeb(Quotation quotation){
         if(quotation == null){
-            Toast.makeText(this, getString(R.string.mensajeCitaNula), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.mensajeCitaNula), Toast.LENGTH_SHORT).show();
         }else{
             tvQuotation.setText(quotation.getQuoteText());
             tvAbajo.setText(quotation.getQuoteAuthor());
-            this.findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
             new BackgroundThreadQuotation(this).start();
         }
 

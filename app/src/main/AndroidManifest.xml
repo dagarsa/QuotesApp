@@ -21,26 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuotesApp">
         <activity
-            android:name=".QuotationActivity"
-            android:exported="false"
-            android:label="@string/get"
-            android:parentActivityName=".DashboardActivity"/>
-        <activity
-            android:name=".FavouriteActivity"
-            android:exported="false"
-            android:label="@string/favourite"
-            android:parentActivityName=".DashboardActivity"/>
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="false"
-            android:label="@string/settings"
-            android:parentActivityName=".DashboardActivity"/>
-        <activity
-            android:name=".AboutActivity"
-            android:exported="false"
-            android:label="@string/about"
-            android:parentActivityName=".DashboardActivity"/>
-        <activity
             android:name=".DashboardActivity"
             android:exported="true">
             <intent-filter>
