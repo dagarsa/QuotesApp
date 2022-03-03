@@ -1,5 +1,6 @@
 package fragments;
 
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,7 +23,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -108,6 +112,50 @@ public class FavouriteFragment extends Fragment {
             }
         });
         recycler.setAdapter(adapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                return makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.RIGHT);
+            }
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                Quotation quotation = adapter.getQuotationAt(viewHolder.getLayoutPosition());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Include here the code to access the database
+                        AbstractQuotation.getInstace(requireContext()).getQuotationDao().deleteQuote(quotation/*data.get(position)*/);
+                    }
+                }).start();
+                adapter.eliminarItem(viewHolder.getLayoutPosition());
+
+                //Comprobar si hay o no citas después de haber eliminado una
+                removeVisible = adapter.getItemCount() > 0;
+
+                //Llama otra vez a onCreateOptionsMenu
+                getActivity().invalidateOptionsMenu();
+
+            }
+
+            @Override
+            public boolean isItemViewSwipeEnabled() {
+                return true;
+            }
+
+            @Override
+            public boolean isLongPressDragEnabled() {
+                return false;
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(recycler);
+
         return view;
     }
 
