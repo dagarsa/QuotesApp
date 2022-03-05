@@ -20,12 +20,9 @@ public class IntermediarioVistaDatos extends RecyclerView.Adapter<IntermediarioV
 
     private OnItemClickListener interOnItemClickListener;
 
-    private OnItemLongClickListener interOnItemLongClickListener;
-
-    public IntermediarioVistaDatos(List<Quotation> theListaQuotes, OnItemClickListener theInterOnItemClickListener, OnItemLongClickListener theInterOnItemLongClickListener){
+    public IntermediarioVistaDatos(List<Quotation> theListaQuotes, OnItemClickListener theInterOnItemClickListener){
         listaQuotes = theListaQuotes;
         interOnItemClickListener = theInterOnItemClickListener;
-        interOnItemLongClickListener = theInterOnItemLongClickListener;
     }
 
     @NonNull
@@ -63,24 +60,11 @@ public class IntermediarioVistaDatos extends RecyclerView.Adapter<IntermediarioV
                     interOnItemClickListener.onItemClick(listaQuotes.get(getAdapterPosition()));
                 }
             });
-            itemView.setOnLongClickListener(new View.OnLongClickListener(){
-                @Override
-                public boolean onLongClick(View view) {
-                    interOnItemLongClickListener.onItemLongClick(getAdapterPosition());
-                    return true;
-                }
-            });
         }
     }
 
     public interface OnItemClickListener {
         void onItemClick(Quotation quotation);
-    }
-
-    public interface OnItemLongClickListener {
-        void onItemLongClick(int position);
-
-        //void onItemLongClick(int position);
     }
 
     //Método para eliminar item

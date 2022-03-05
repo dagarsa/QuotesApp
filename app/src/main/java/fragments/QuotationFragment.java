@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import POJO.Quotation;
 import databases.AbstractQuotation;
@@ -58,6 +59,54 @@ public class QuotationFragment extends Fragment {
         this.view = view;
         tvQuotation = view.findViewById(R.id.tvHello);
         tvAbajo = view.findViewById(R.id.tvAbajo);
+
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.srlQuotation);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+                String http = sharedPreferences.getString("httpRequest", "");
+
+                if(hasInternet()){
+                    String language = sharedPreferences.getString("quotationLanguage","");
+                    if(http.equals("GET")){
+                        ocultarActionBarVisibleProgressBar();
+                        Call<Quotation> call = webService.getQuotationWeb(language);
+                        call.enqueue(new Callback<Quotation>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Quotation> call, @NonNull Response<Quotation> response) {
+                                Log.d("mensaje", "Ha acertado - " + response.body());
+                                nuevaCitaWeb(response.body());
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<Quotation> call, @NonNull Throwable t) {
+                                Log.d("mensaje", "Ha fallado");
+                                nuevaCitaWeb(null);
+                            }
+                        });
+                    }
+                    if(http.equals("POST")){
+                        ocultarActionBarVisibleProgressBar();
+                        Call<Quotation> call = webService.postQuotation("getQuote", "json", language);
+                        call.enqueue(new Callback<Quotation>() {
+                            @Override
+                            public void onResponse(Call<Quotation> call, Response<Quotation> response) {
+                                nuevaCitaWeb(response.body());
+                            }
+
+                            @Override
+                            public void onFailure(Call<Quotation> call, Throwable t) {
+                                Toast.makeText(getContext(), "Fallo en post", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                }else {
+                    Toast.makeText(getContext(), getString(R.string.sinConexion), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         if(savedInstanceState == null){
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
@@ -207,7 +256,9 @@ public class QuotationFragment extends Fragment {
     public void ocultarActionBarVisibleProgressBar(){
         menu.findItem(R.id.nuevaCita).setVisible(false);
         menu.findItem(R.id.citaFav).setVisible(false);
-        view.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        //view.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.srlQuotation);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     public void nuevaCitaWeb(Quotation quotation){
@@ -216,7 +267,9 @@ public class QuotationFragment extends Fragment {
         }else{
             tvQuotation.setText(quotation.getQuoteText());
             tvAbajo.setText(quotation.getQuoteAuthor());
-            view.findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+            //view.findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+            SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.srlQuotation);
+            swipeRefreshLayout.setRefreshing(false);
             new BackgroundThreadQuotation(this).start();
         }
 

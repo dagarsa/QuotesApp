@@ -82,34 +82,6 @@ public class FavouriteFragment extends Fragment {
                     }
                 }
             }
-        }, new IntermediarioVistaDatos.OnItemLongClickListener() {
-            @Override
-            public void onItemLongClick(int position) {
-                AlertDialog.Builder alerta = new AlertDialog.Builder(requireContext());
-                alerta.setMessage(getString(R.string.confirmation));
-                alerta.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Quotation quotation = adapter.getQuotationAt(position);
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // Include here the code to access the database
-                                AbstractQuotation.getInstace(requireContext()).getQuotationDao().deleteQuote(quotation/*data.get(position)*/);
-                            }
-                        }).start();
-                        adapter.eliminarItem(position);
-
-                        //Comprobar si hay o no citas después de haber eliminado una
-                        removeVisible = adapter.getItemCount() > 0;
-
-                        //Llama otra vez a onCreateOptionsMenu
-                        getActivity().invalidateOptionsMenu();
-                    }
-                });
-                alerta.setNegativeButton(getString(R.string.no), null);
-                alerta.create().show();
-            }
         });
         recycler.setAdapter(adapter);
 
