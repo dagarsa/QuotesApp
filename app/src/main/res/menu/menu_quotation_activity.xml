@@ -3,8 +3,6 @@
     xmlns:xmls="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmls:app="http://schemas.android.com/apk/res-auto">
-    <item android:title="@string/add" android:id="@+id/citaFav" android:visible="false"
-        android:icon="@android:drawable/ic_menu_add" app:showAsAction="ifRoom"/>
     <item android:title="@string/refresh" android:id="@+id/nuevaCita" android:visible="true"
         android:icon="@android:drawable/ic_menu_rotate" app:showAsAction="ifRoom"/>
 </menu>

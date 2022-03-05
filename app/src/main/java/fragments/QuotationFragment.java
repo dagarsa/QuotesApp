@@ -26,6 +26,8 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import POJO.Quotation;
 import databases.AbstractQuotation;
 import retrofit2.Call;
@@ -59,6 +61,26 @@ public class QuotationFragment extends Fragment {
         this.view = view;
         tvQuotation = view.findViewById(R.id.tvHello);
         tvAbajo = view.findViewById(R.id.tvAbajo);
+
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.fabButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addVisible = false;
+
+                Quotation quotation = new Quotation(tvQuotation.getText().toString(), tvAbajo.getText().toString());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Include here the code to access the database
+                        AbstractQuotation.getInstace(requireContext()).getQuotationDao().addQuote(quotation);
+                    }
+                }).start();
+
+                //Llama otra vez a onCreateOptionsMenu
+                getActivity().invalidateOptionsMenu();
+            }
+        });
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.srlQuotation);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -144,7 +166,9 @@ public class QuotationFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_quotation_activity, menu);
-        menu.findItem(R.id.citaFav).setVisible(addVisible);
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.fabButton);
+        if (addVisible) floatingActionButton.setVisibility(View.VISIBLE);
+        else floatingActionButton.setVisibility(View.INVISIBLE);
         this.menu = menu;
     }
 
@@ -195,23 +219,6 @@ public class QuotationFragment extends Fragment {
 
             return true;
         }
-        if(item.getItemId() == R.id.citaFav){
-            addVisible = false;
-
-            Quotation quotation = new Quotation(tvQuotation.getText().toString(), tvAbajo.getText().toString());
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                // Include here the code to access the database
-                    AbstractQuotation.getInstace(requireContext()).getQuotationDao().addQuote(quotation);
-                }
-            }).start();
-
-            //Llama otra vez a onCreateOptionsMenu
-            getActivity().invalidateOptionsMenu();
-
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -255,8 +262,9 @@ public class QuotationFragment extends Fragment {
 
     public void ocultarActionBarVisibleProgressBar(){
         menu.findItem(R.id.nuevaCita).setVisible(false);
-        menu.findItem(R.id.citaFav).setVisible(false);
-        //view.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.fabButton);
+        if (addVisible) floatingActionButton.setVisibility(View.VISIBLE);
+        else floatingActionButton.setVisibility(View.INVISIBLE);
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.srlQuotation);
         swipeRefreshLayout.setRefreshing(true);
     }
@@ -267,7 +275,6 @@ public class QuotationFragment extends Fragment {
         }else{
             tvQuotation.setText(quotation.getQuoteText());
             tvAbajo.setText(quotation.getQuoteAuthor());
-            //view.findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
             SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.srlQuotation);
             swipeRefreshLayout.setRefreshing(false);
             new BackgroundThreadQuotation(this).start();
