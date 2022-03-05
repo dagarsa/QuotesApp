@@ -13,12 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -26,7 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -61,8 +59,8 @@ public class FavouriteFragment extends Fragment {
         adapter = new IntermediarioVistaDatos(new ArrayList<Quotation>(), new IntermediarioVistaDatos.OnItemClickListener() {
             @Override
             public void onItemClick(Quotation quotation) {
-                if (quotation.getQuoteAuthor() == null || quotation.getQuoteAuthor() == "") {
-                    Toast.makeText(requireContext(), getString(R.string.toastNoCarga), Toast.LENGTH_SHORT).show();
+                if (quotation.getQuoteAuthor().equals(null) || quotation.getQuoteAuthor().equals("")) {
+                    Snackbar.make((CoordinatorLayout)view.findViewById(R.id.clFavourite), getString(R.string.toastNoCarga), Snackbar.LENGTH_SHORT).show();
                 } else {
                     String authorName = null;
                     try {
@@ -103,9 +101,10 @@ public class FavouriteFragment extends Fragment {
                     @Override
                     public void run() {
                         // Include here the code to access the database
-                        AbstractQuotation.getInstace(requireContext()).getQuotationDao().deleteQuote(quotation/*data.get(position)*/);
+                        AbstractQuotation.getInstace(requireContext()).getQuotationDao().deleteQuote(quotation);
                     }
                 }).start();
+                int posicion = viewHolder.getLayoutPosition();
                 adapter.eliminarItem(viewHolder.getLayoutPosition());
 
                 //Comprobar si hay o no citas después de haber eliminado una
@@ -113,6 +112,24 @@ public class FavouriteFragment extends Fragment {
 
                 //Llama otra vez a onCreateOptionsMenu
                 getActivity().invalidateOptionsMenu();
+
+                Snackbar snackbar = Snackbar.make((CoordinatorLayout)view.findViewById(R.id.clFavourite), R.string.confirmation, Snackbar.LENGTH_LONG);
+                snackbar.setAction(R.string.deshacer, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Include here the code to access the database
+                                AbstractQuotation.getInstace(requireContext()).getQuotationDao().addQuote(quotation);
+                            }
+                        }).start();
+                        adapter.anyadirItem(posicion, quotation);
+                        if (posicion == adapter.getItemCount()-1) removeVisible = true;
+                        getActivity().invalidateOptionsMenu();
+                    }
+                });
+                snackbar.show();
 
             }
 

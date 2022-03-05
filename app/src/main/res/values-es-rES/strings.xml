@@ -29,4 +29,5 @@
     <string name="mensajeCitaNula">No ha sido posible obtener una cita</string>
     <string name="sinConexion">Sin Conexión</string>
     <string name="idiomaRus">Ruso</string>
+    <string name="deshacer">Deshacer</string>
 </resources>

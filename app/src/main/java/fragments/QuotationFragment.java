@@ -17,16 +17,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import POJO.Quotation;
 import databases.AbstractQuotation;
@@ -119,13 +119,13 @@ public class QuotationFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<Quotation> call, Throwable t) {
-                                Toast.makeText(getContext(), "Fallo en post", Toast.LENGTH_SHORT).show();
+                                Snackbar.make((CoordinatorLayout)view.findViewById(R.id.idPruebaQuotation), "Fallo en el post", Snackbar.LENGTH_SHORT).show();
                             }
                         });
                     }
 
                 }else {
-                    Toast.makeText(getContext(), getString(R.string.sinConexion), Toast.LENGTH_SHORT).show();
+                    Snackbar.make((CoordinatorLayout)view.findViewById(R.id.idPruebaQuotation), getString(R.string.sinConexion), Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -208,13 +208,13 @@ public class QuotationFragment extends Fragment {
 
                         @Override
                         public void onFailure(Call<Quotation> call, Throwable t) {
-                            Toast.makeText(getContext(), "Fallo en post", Toast.LENGTH_SHORT).show();
+                            Snackbar.make((CoordinatorLayout)view.findViewById(R.id.idPruebaQuotation), "Fallo en el post", Snackbar.LENGTH_SHORT).show();
                         }
                     });
                 }
 
             }else {
-                Toast.makeText(getContext(), getString(R.string.sinConexion), Toast.LENGTH_SHORT).show();
+                Snackbar.make((CoordinatorLayout)view.findViewById(R.id.idPruebaQuotation), getString(R.string.sinConexion), Snackbar.LENGTH_SHORT).show();
             }
 
             return true;
@@ -271,7 +271,7 @@ public class QuotationFragment extends Fragment {
 
     public void nuevaCitaWeb(Quotation quotation){
         if(quotation == null){
-            Toast.makeText(getContext(), getString(R.string.mensajeCitaNula), Toast.LENGTH_SHORT).show();
+            Snackbar.make((CoordinatorLayout)view.findViewById(R.id.idPruebaQuotation), getString(R.string.mensajeCitaNula), Snackbar.LENGTH_SHORT).show();
         }else{
             tvQuotation.setText(quotation.getQuoteText());
             tvAbajo.setText(quotation.getQuoteAuthor());

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/get" android:icon="@android:drawable/btn_plus" android:id="@+id/itemGetQuotation"></item>
-    <item android:title="@string/favourite" android:icon="@android:drawable/btn_star" android:id="@+id/itemFavourite"></item>
-    <item android:title="@string/settings" android:icon="@android:drawable/arrow_down_float" android:id="@+id/itemSettings"></item>
-    <item android:title="@string/about" android:icon="@android:drawable/ic_menu_help" android:id="@+id/itemAbout"></item>
+    <item android:title="@string/get" android:icon="@android:drawable/ic_input_get" android:id="@+id/itemGetQuotation"></item>
+    <item android:title="@string/favourite" android:icon="@android:drawable/btn_star_big_on" android:id="@+id/itemFavourite"></item>
+    <item android:title="@string/settings" android:icon="@android:drawable/ic_menu_preferences" android:id="@+id/itemSettings"></item>
+    <item android:title="@string/about" android:icon="@android:drawable/ic_menu_info_details" android:id="@+id/itemAbout"></item>
 </menu>

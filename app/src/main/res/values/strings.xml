@@ -31,4 +31,5 @@
     <string name="httpRequest">HTTP Request</string>
     <string name="mensajeCitaNula">Not possible to obtain a quote</string>
     <string name="sinConexion">No Connection</string>
+    <string name="deshacer">Undo</string>
 </resources>

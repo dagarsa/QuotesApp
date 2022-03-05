@@ -89,4 +89,9 @@ public class IntermediarioVistaDatos extends RecyclerView.Adapter<IntermediarioV
     public Quotation getQuotationAt(int position){
         return listaQuotes.get(position);
     }
+
+    public void anyadirItem(int itemLista, Quotation quotation){
+        listaQuotes.add(itemLista, quotation);
+        notifyDataSetChanged();
+    }
 }
