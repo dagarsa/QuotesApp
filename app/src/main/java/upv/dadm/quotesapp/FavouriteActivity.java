@@ -165,6 +165,7 @@ public class FavouriteActivity extends AppCompatActivity {
     }
 
     public void callAdapterMethod(List<Quotation> list){
+        adapter.eliminarTodo();
         adapter.addFavQuotesAndNotify(list);
         //Comprobar si hay o no citas después de haber eliminado una
         removeVisible = adapter.getItemCount() > 0;

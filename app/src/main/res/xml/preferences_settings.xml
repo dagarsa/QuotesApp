@@ -7,9 +7,11 @@
     <PreferenceCategory android:title="@string/obtainQuotes" android:key="obtainQuotes">
         <ListPreference android:title="@string/quotationLanguage" android:key="quotationLanguage"
             android:entries="@array/idiomas"
-            android:entryValues="@array/idiomasValue"></ListPreference>
+            android:entryValues="@array/idiomasValue"
+            android:defaultValue="en"></ListPreference>
         <ListPreference android:title="@string/httpRequest" android:key="httpRequest"
             android:entries="@array/httpEleccion"
-            android:entryValues="@array/httpEleccion"></ListPreference>
+            android:entryValues="@array/httpEleccion"
+            android:defaultValue="@string/tvGet"></ListPreference>
     </PreferenceCategory>
 </PreferenceScreen>
